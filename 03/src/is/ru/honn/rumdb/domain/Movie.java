@@ -1,6 +1,8 @@
 package is.ru.honn.rumdb.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Movie implements Comparable<Movie>
 {
@@ -11,6 +13,8 @@ public class Movie implements Comparable<Movie>
     private Date release;
     private String director;
     private Rating rating;
+
+    private List<Validator> validators = new ArrayList<Validator>();
 
     public Movie()
     {
@@ -123,13 +127,10 @@ public class Movie implements Comparable<Movie>
     }
 
     public void initialize(){
-//        this.id = -1;
-//        this.title = "";
-//        this.link = "";
-//        this.description = "";
-//        this.release = new Date();
-//        this.director = "";
-        this.rating = new Rating();
+        release = new Date();
+        rating.reset();
+        clearValidators();
+        addValidator(new DefaultMovieValidator(this));
     }
 
     public void view(){
@@ -142,5 +143,21 @@ public class Movie implements Comparable<Movie>
 
     public float getAverageRate(){
         return this.rating.getAverageRating();
+    }
+
+    public boolean validate(){
+        for(Validator val : validators){
+            if(!val.validate())
+                return false;
+        }
+        return true;
+    }
+
+    public void clearValidators(){
+        validators.clear();
+    }
+
+    public void addValidator(Validator val){
+        validators.add(val);
     }
 }

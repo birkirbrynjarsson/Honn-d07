@@ -123,13 +123,8 @@ public class Movie implements Comparable<Movie>
     }
 
     public void initialize(){
-//        this.id = -1;
-//        this.title = "";
-//        this.link = "";
-//        this.description = "";
-//        this.release = new Date();
-//        this.director = "";
-        this.rating = new Rating();
+        release = new Date();
+        rating.reset();
     }
 
     public void view(){
